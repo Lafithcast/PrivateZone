@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone Wellness · Café y Salón')}"></head>
+<body>
+
+<header th:replace="~{fragments/layout :: header}"></header>
+
+<main>
+
+    <!-- ===================== PROMOCIONES (carrusel) ===================== -->
+    <section class="container-xxl px-4 py-5 text-center" id="promociones">
+        <p class="pz-eyebrow mb-2" th:text="#{promo.eyebrow}">NOVEDADES Y PROMOCIONES</p>
+        <h1 class="pz-h2 mb-4" th:text="#{promo.title}">Lo nuevo esta semana</h1>
+
+        <div th:if="${not #lists.isEmpty(promociones)}" class="position-relative pz-carousel-wrap mx-auto">
+            <div id="carruselPromos" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
+                <div class="carousel-inner">
+                    <div th:each="p, st : ${promociones}" class="carousel-item" th:classappend="${st.first} ? 'active'">
+                        <div class="row g-0 pz-promo text-start">
+                            <div class="col-md-6 pz-promo-texto p-4 p-lg-5 d-flex flex-column justify-content-center">
+                                <span class="pz-promo-tag mb-3"><i class="bi bi-stars me-1"></i><span th:text="${#strings.toUpperCase(p.etiqueta)}">ETIQUETA</span></span>
+                                <h2 class="pz-promo-titulo" th:text="${p.titulo}">Título</h2>
+                                <p class="pz-promo-desc" th:text="${p.descripcion}">Descripción</p>
+                                <p class="mb-4">
+                                    <span class="pz-promo-precio">₡<span th:text="${#numbers.formatInteger(p.precio,1,'POINT')}">0</span></span>
+                                    <small th:if="${p.precioAnterior != null}" class="pz-promo-antes ms-2">
+                                        <span th:text="#{promo.antes}">antes</span>
+                                        ₡<span th:text="${#numbers.formatInteger(p.precioAnterior,1,'POINT')}">0</span>
+                                    </small>
+                                </p>
+                                <div><a href="#salon" class="btn pz-btn-gold"><span th:text="#{promo.reservar}">Reservar ahora</span> <i class="bi bi-arrow-right ms-1"></i></a></div>
+                            </div>
+                            <div class="col-md-6 pz-promo-visual d-flex flex-column align-items-center justify-content-center text-white">
+                                <i class="bi fs-1 mb-2" th:classappend="${p.icono}"></i>
+                                <small class="pz-eyebrow text-white" th:text="${#strings.toUpperCase(p.etiqueta)}">ETIQUETA</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators pz-indicators position-static mt-3 mb-0">
+                    <button th:each="p, st : ${promociones}" type="button" data-bs-target="#carruselPromos"
+                            th:data-bs-slide-to="${st.index}" th:classappend="${st.first} ? 'active'"
+                            th:attr="aria-label='Promoción ' + ${st.count}"></button>
+                </div>
+                <button class="carousel-control-prev pz-arrow pz-arrow-prev" type="button" data-bs-target="#carruselPromos" data-bs-slide="prev">
+                    <i class="bi bi-chevron-left"></i><span class="visually-hidden" th:text="#{promo.anterior}">Anterior</span>
+                </button>
+                <button class="carousel-control-next pz-arrow pz-arrow-next" type="button" data-bs-target="#carruselPromos" data-bs-slide="next">
+                    <i class="bi bi-chevron-right"></i><span class="visually-hidden" th:text="#{promo.siguiente}">Siguiente</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== CAFETERÍA ===================== -->
+    <section class="container-xxl px-4 pb-5" id="cafe">
+        <div class="pz-card p-4 p-lg-5">
+            <div class="row g-4 align-items-center mb-4">
+                <div class="col-lg-8">
+                    <p class="pz-eyebrow mb-2"><i class="bi bi-cup-hot me-1"></i><span th:text="#{cafe.eyebrow}">CAFETERÍA</span></p>
+                    <h2 class="pz-h2" th:text="#{cafe.title}">Café de Especialidad</h2>
+                    <p class="pz-text" th:text="#{cafe.desc}"></p>
+                    <a href="#" class="pz-link-row d-flex align-items-center gap-3 text-decoration-none">
+                        <span class="pz-link-icon"><i class="bi bi-egg-fried"></i></span>
+                        <span class="flex-grow-1">
+                            <strong class="d-block" th:text="#{cafe.menu.titulo}">Ver menú completo</strong>
+                            <small th:text="#{cafe.menu.sub}">Bebidas, desayunos, brunch y repostería</small>
+                        </span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <div class="pz-foto d-flex flex-column align-items-center justify-content-center">
+                        <i class="bi bi-cup-hot fs-2 mb-1"></i><small th:text="#{cafe.foto}">Foto</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div th:each="c : ${categoriasCafe}" class="col-md-4">
+                    <div class="pz-cat h-100">
+                        <span class="pz-cat-icon"><i class="bi" th:classappend="${c.icono}"></i></span>
+                        <h3 class="pz-h3" th:text="${c.nombre}">Categoría</h3>
+                        <p class="pz-cat-desc" th:text="${c.descripcion}">Descripción</p>
+                        <small class="pz-cat-precio"><span th:text="#{comun.desde}">Desde</span> ₡<span th:text="${#numbers.formatInteger(c.precioDesde,1,'POINT')}">0</span></small>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="pz-hr my-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-4">
+                <div><a href="#" class="btn pz-btn-dark"><span th:text="#{cafe.mas}">Conocer más del Café</span> <i class="bi bi-arrow-right ms-1"></i></a></div>
+                <div>
+                    <p class="pz-eyebrow text-md-end mb-2" th:text="#{cafe.equipo}">NUESTROS BARISTAS</p>
+                    <div class="d-flex gap-4 justify-content-md-end">
+                        <div th:each="b : ${baristas}" class="pz-persona text-center">
+                            <div class="pz-avatar mx-auto" th:text="${b.iniciales}">MR</div>
+                            <strong class="d-block small mt-2" th:text="${b.nombre}">Nombre</strong>
+                            <small class="pz-persona-rol" th:text="${b.rol}">Rol</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== SALÓN ===================== -->
+    <section class="container-xxl px-4 pb-5" id="salon">
+        <div class="pz-card p-4 p-lg-5">
+            <div class="row g-4 align-items-center mb-4">
+                <div class="col-lg-4 order-2 order-lg-1">
+                    <div class="pz-foto d-flex flex-column align-items-center justify-content-center">
+                        <i class="bi bi-scissors fs-2 mb-1"></i><small th:text="#{salon.foto}">Foto</small>
+                    </div>
+                </div>
+                <div class="col-lg-8 order-1 order-lg-2">
+                    <p class="pz-eyebrow mb-2"><i class="bi bi-scissors me-1"></i><span th:text="#{salon.eyebrow}">SALÓN DE BELLEZA</span></p>
+                    <h2 class="pz-h2" th:text="#{salon.title}">Salón de Belleza y Bienestar</h2>
+                    <p class="pz-text" th:text="#{salon.desc}"></p>
+                    <a href="#" class="pz-link-row d-flex align-items-center gap-3 text-decoration-none">
+                        <span class="pz-link-icon"><i class="bi bi-clock"></i></span>
+                        <span class="flex-grow-1">
+                            <strong class="d-block" th:text="#{salon.agenda.titulo}">Agenda en línea</strong>
+                            <small th:text="#{salon.agenda.sub}">Elegí servicio, especialista y horario</small>
+                        </span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div th:each="c : ${categoriasSalon}" class="col-md-6 col-lg-3">
+                    <div class="pz-cat h-100">
+                        <span class="pz-cat-icon"><i class="bi" th:classappend="${c.icono}"></i></span>
+                        <h3 class="pz-h3" th:text="${c.nombre}">Categoría</h3>
+                        <p class="pz-cat-desc" th:text="${c.descripcion}">Descripción</p>
+                        <small class="pz-cat-precio"><span th:text="#{comun.desde}">Desde</span> ₡<span th:text="${#numbers.formatInteger(c.precioDesde,1,'POINT')}">0</span></small>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="pz-hr my-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-4">
+                <div><a href="#" class="btn pz-btn-dark"><span th:text="#{salon.mas}">Ver Servicios y Agendar Cita</span> <i class="bi bi-arrow-right ms-1"></i></a></div>
+                <div>
+                    <p class="pz-eyebrow text-md-end mb-2" th:text="#{salon.equipo}">NUESTRAS ESPECIALISTAS</p>
+                    <div class="d-flex gap-4 justify-content-md-end">
+                        <div th:each="e : ${especialistas}" class="pz-persona text-center">
+                            <div class="pz-avatar mx-auto" th:text="${e.iniciales}">AS</div>
+                            <strong class="d-block small mt-2" th:text="${e.nombre}">Nombre</strong>
+                            <small class="pz-persona-rol" th:text="${e.rol}">Rol</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
