@@ -3,6 +3,7 @@ package PrivateZone.PrivateZone.service.impl;
 import PrivateZone.PrivateZone.domain.Promocion;
 import PrivateZone.PrivateZone.repository.PromocionRepository;
 import PrivateZone.PrivateZone.service.PromocionService;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,6 @@ public class PromocionServiceImpl implements PromocionService {
     @Override
     @Transactional(readOnly = true)
     public List<Promocion> getPromocionesActivas() {
-        return promocionRepository.findByActivaTrueOrderByOrdenAsc();
+        return promocionRepository.findVigentes(LocalDate.now());
     }
 }

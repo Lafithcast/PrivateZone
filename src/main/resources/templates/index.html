@@ -96,7 +96,7 @@
                         <div th:each="b : ${baristas}" class="pz-persona text-center">
                             <div class="pz-avatar mx-auto" th:text="${b.iniciales}">MR</div>
                             <strong class="d-block small mt-2" th:text="${b.nombre}">Nombre</strong>
-                            <small class="pz-persona-rol" th:text="${b.rol}">Rol</small>
+                            <small class="pz-persona-rol" th:text="${b.rol?.nombre}">Rol</small>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                         <div th:each="e : ${especialistas}" class="pz-persona text-center">
                             <div class="pz-avatar mx-auto" th:text="${e.iniciales}">AS</div>
                             <strong class="d-block small mt-2" th:text="${e.nombre}">Nombre</strong>
-                            <small class="pz-persona-rol" th:text="${e.rol}">Rol</small>
+                            <small class="pz-persona-rol" th:text="${e.rol?.nombre}">Rol</small>
                         </div>
                     </div>
                 </div>
