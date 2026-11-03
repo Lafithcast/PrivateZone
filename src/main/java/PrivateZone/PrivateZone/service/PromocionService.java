@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface PromocionService {
 
-    /** Promociones activas, en el orden en que se muestran en el carrusel. */
+    /** Promociones activas y vigentes hoy, en el orden en que se muestran en el carrusel. */
     List<Promocion> getPromocionesActivas();
 }

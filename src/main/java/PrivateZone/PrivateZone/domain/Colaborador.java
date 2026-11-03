@@ -17,15 +17,19 @@ public class Colaborador {
     @Column(nullable = false, length = 80)
     private String nombre;
 
-    @Column(nullable = false, length = 80)
-    private String rol;               // rol o especialidad
+    @ManyToOne
+    @JoinColumn(name = "rol_id")
+    private Rol rol;                  // rol o especialidad
+
+    @Column(nullable = false, length = 10)
+    private String estado = "ACTIVO"; // "ACTIVO" o "INACTIVO"
 
     @Column(nullable = false, length = 4)
     private String iniciales;
 
     public Colaborador() { }
 
-    public Colaborador(String area, String nombre, String rol, String iniciales) {
+    public Colaborador(String area, String nombre, Rol rol, String iniciales) {
         this.area = area;
         this.nombre = nombre;
         this.rol = rol;
@@ -38,8 +42,10 @@ public class Colaborador {
     public void setArea(String area) { this.area = area; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-    public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
+    public Rol getRol() { return rol; }
+    public void setRol(Rol rol) { this.rol = rol; }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
     public String getIniciales() { return iniciales; }
     public void setIniciales(String iniciales) { this.iniciales = iniciales; }
 }

@@ -1,6 +1,7 @@
 package PrivateZone.PrivateZone.domain;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "promocion")
@@ -30,6 +31,10 @@ public class Promocion {
     private boolean activa = true;
 
     private Integer orden = 0;
+
+    private LocalDate fechaInicio;    // opcional: null = sin límite
+
+    private LocalDate fechaFin;       // opcional: null = sin límite
 
     public Promocion() { }
 
@@ -63,4 +68,8 @@ public class Promocion {
     public void setActiva(boolean activa) { this.activa = activa; }
     public Integer getOrden() { return orden; }
     public void setOrden(Integer orden) { this.orden = orden; }
+    public LocalDate getFechaInicio() { return fechaInicio; }
+    public void setFechaInicio(LocalDate fechaInicio) { this.fechaInicio = fechaInicio; }
+    public LocalDate getFechaFin() { return fechaFin; }
+    public void setFechaFin(LocalDate fechaFin) { this.fechaFin = fechaFin; }
 }

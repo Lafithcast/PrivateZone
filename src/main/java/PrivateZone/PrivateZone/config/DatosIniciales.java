@@ -3,10 +3,15 @@ package PrivateZone.PrivateZone.config;
 import PrivateZone.PrivateZone.domain.Categoria;
 import PrivateZone.PrivateZone.domain.Colaborador;
 import PrivateZone.PrivateZone.domain.Promocion;
+import PrivateZone.PrivateZone.domain.Rol;
 import PrivateZone.PrivateZone.repository.CategoriaRepository;
 import PrivateZone.PrivateZone.repository.ColaboradorRepository;
 import PrivateZone.PrivateZone.repository.PromocionRepository;
+import PrivateZone.PrivateZone.repository.RolRepository;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +25,15 @@ public class DatosIniciales {
     @Bean
     CommandLineRunner cargarDatos(PromocionRepository promociones,
                                   CategoriaRepository categorias,
-                                  ColaboradorRepository colaboradores) {
+                                  ColaboradorRepository colaboradores,
+                                  RolRepository roles) {
         return args -> {
             if (promociones.count() == 0) {
+                Promocion vencida = new Promocion("Demo · Vencida", "Promoción vencida (demo)",
+                    "Datos de ejemplo: no debe aparecer en el carrusel porque su fecha de fin ya pasó.",
+                    1000, null, "bi-stars", true, 4);
+                // datos de ejemplo: promoción con fecha de fin pasada para verificar el filtro de vigencia
+                vencida.setFechaFin(LocalDate.now().minusDays(7));
                 promociones.saveAll(List.of(
                     new Promocion("Café + Salón · Combo", "Desayuno + Manicura Express",
                         "Empezá el día con un desayuno de la casa y salí con las uñas listas. Todo en una sola visita.",
@@ -32,7 +43,8 @@ public class DatosIniciales {
                         2900, null, "bi-cup-straw", true, 2),
                     new Promocion("Salón · Bienestar", "Limpieza facial + masaje relajante",
                         "Un ritual de una hora para renovar tu piel y soltar la tensión, con café de cortesía.",
-                        32000, 40000, "bi-flower2", true, 3)
+                        32000, 40000, "bi-flower2", true, 3),
+                    vencida
                 ));
             }
             if (categorias.count() == 0) {
@@ -46,13 +58,25 @@ public class DatosIniciales {
                     new Categoria("SALON", "Tratamientos Faciales", "Limpieza profunda, hidratación y cuidado de la piel.", 18000, "bi-flower2")
                 ));
             }
+            if (roles.count() == 0) {
+                roles.saveAll(List.of(
+                    new Rol("Barista principal"),
+                    new Rol("Barista"),
+                    new Rol("Estilista"),
+                    new Rol("Especialista en uñas")
+                ));
+            }
             if (colaboradores.count() == 0) {
+                Map<String, Rol> rolPorNombre = new HashMap<>();
+                for (Rol r : roles.findAll()) {
+                    rolPorNombre.put(r.getNombre(), r);
+                }
                 colaboradores.saveAll(List.of(
-                    new Colaborador("CAFE", "Sendry Hernandez", "Barista principal", "SH"),
-                    new Colaborador("CAFE", "Hellen Mora", "Barista", "HM"),
-                    new Colaborador("SALON", "Daysi Araya", "Estilista", "DA"),
-                    new Colaborador("SALON", "Beverly Chavarria", "Especialista en uñas", "BC"),
-                    new Colaborador("SALON", "Roxana Alfaro", "Estilista", "RA")
+                    new Colaborador("CAFE", "Sendry Hernandez", rolPorNombre.get("Barista principal"), "SH"),
+                    new Colaborador("CAFE", "Hellen Mora", rolPorNombre.get("Barista"), "HM"),
+                    new Colaborador("SALON", "Daysi Araya", rolPorNombre.get("Estilista"), "DA"),
+                    new Colaborador("SALON", "Beverly Chavarria", rolPorNombre.get("Especialista en uñas"), "BC"),
+                    new Colaborador("SALON", "Roxana Alfaro", rolPorNombre.get("Estilista"), "RA")
                 ));
             }
         };
