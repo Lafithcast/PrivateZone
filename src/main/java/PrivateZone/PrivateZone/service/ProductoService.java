@@ -17,4 +17,6 @@ public interface ProductoService {
     public List<Producto> getProductos();
 
     public List<Producto> getProductosPorCategoria(Long categoriaId);
+
+    public void actualizarPrecio(Long id, Integer precio);
 }
