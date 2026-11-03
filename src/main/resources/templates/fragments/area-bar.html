@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<!-- Barra secundaria de área. La versión del Salón (salon(activo)) se agregará en este mismo archivo en la rama de la página del Salón. -->
+<!-- Barras secundarias de área: cafe(activo) y salon(activo). -->
 
 <!-- ========== BARRA DEL CAFÉ (parámetro: ítem activo) ========== -->
 <div th:fragment="cafe(activo)" class="pz-areabar">
@@ -14,6 +14,19 @@
            th:attr="aria-current=${activo == 'menu'} ? 'page'" th:text="#{areabar.cafe.menu}">Menú</a>
         <a class="pz-areabar-link" th:href="@{/cafe/reservar}" th:classappend="${activo == 'reservar'} ? 'pz-areabar-active'"
            th:attr="aria-current=${activo == 'reservar'} ? 'page'" th:text="#{areabar.cafe.reservar}">Reservar mesa</a>
+    </nav>
+</div>
+
+<!-- ========== BARRA DEL SALÓN (parámetro: ítem activo) ========== -->
+<div th:fragment="salon(activo)" class="pz-areabar">
+    <nav class="container-xxl px-4 pz-areabar-nav" th:aria-label="#{areabar.salon.nombre}">
+        <span class="pz-areabar-nombre" th:text="#{areabar.salon.nombre}">Salón</span>
+        <a class="pz-areabar-link" th:href="@{/salon}" th:classappend="${activo == 'resumen'} ? 'pz-areabar-active'"
+           th:attr="aria-current=${activo == 'resumen'} ? 'page'" th:text="#{areabar.salon.resumen}">Resumen</a>
+        <a class="pz-areabar-link" th:href="@{/salon#servicios}" th:classappend="${activo == 'servicios'} ? 'pz-areabar-active'"
+           th:attr="aria-current=${activo == 'servicios'} ? 'page'" th:text="#{areabar.salon.servicios}">Servicios</a>
+        <!-- Agendar cita: se habilita en la rama del flujo de agendamiento -->
+        <a class="pz-areabar-link pz-areabar-disabled" aria-disabled="true" th:text="#{areabar.salon.agendar}">Agendar cita</a>
     </nav>
 </div>
 
