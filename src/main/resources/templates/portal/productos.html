@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone Productos')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container-xxl px-4 py-5">
+    <form method="get" th:action="@{/portal/productos}" class="mb-3">
+        <select name="categoriaId" class="form-select w-auto" onchange="this.form.submit()">
+            <option value="" th:text="#{portal.productos.todas}">Todas las categorías</option>
+            <option th:each="c : ${categorias}" th:value="${c.id}"
+                    th:text="${c.nombre}"
+                    th:selected="${c.id == categoriaSel}">Categoría</option>
+        </select>
+    </form>
+    
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th th:text="#{portal.productos.producto}">Producto</th>
+                <th th:text="#{portal.productos.categoria}">Categoría</th>
+                <th th:text="#{portal.productos.precio}">Precio</th>
+                <th th:text="#{portal.productos.disponible}">Disponible</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${productos}">
+                <td th:text="${p.nombre}">Producto</td>
+                <td th:text="${p.categoria.nombre}">Categoría</td>
+                <td>₡<span th:text="${#numbers.formatInteger(p.precio, 1, 'POINT')}">0</span></td>
+                <td th:text="${p.disponible} ? #{portal.productos.si} : #{portal.productos.no}">Disponible</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-dark"
+                            data-bs-toggle="modal" data-bs-target="#modalPrecio"
+                            th:attr="data-id=${p.id},data-precio=${p.precio},data-nombre=${p.nombre}"
+                            th:text="#{portal.productos.editar}">Editar precio</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="modalPrecio" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/portal/productos/precio}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPrecioTitulo" th:text="#{portal.productos.editar}">Editar precio</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="modalPrecioId">
+                        <label class="form-label" for="modalPrecioValor" th:text="#{portal.productos.precioColones}">Precio (₡)</label>
+                        <input type="number" min="0" class="form-control" name="precio" id="modalPrecioValor" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn pz-btn-dark" th:text="#{portal.productos.guardar}">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+<script>
+    document.getElementById('modalPrecio').addEventListener('show.bs.modal', function (e) {
+        var b = e.relatedTarget;
+        document.getElementById('modalPrecioId').value = b.getAttribute('data-id');
+        document.getElementById('modalPrecioValor').value = b.getAttribute('data-precio');
+        document.getElementById('modalPrecioTitulo').textContent = b.getAttribute('data-nombre');
+    });
+</script>
+</body>
+</html>
