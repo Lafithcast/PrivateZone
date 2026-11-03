@@ -57,8 +57,9 @@
                 <a class="pz-portal-item pz-portal-disabled" aria-disabled="true" th:title="#{portal.menu.proximamente}">
                     <i class="bi bi-megaphone"></i><span th:text="#{portal.menu.promociones}">Promociones</span>
                 </a>
-                <!-- Colaboradores: lo habilita el integrante A -->
-                <a class="pz-portal-item pz-portal-disabled" aria-disabled="true" th:title="#{portal.menu.proximamente}">
+                <a class="pz-portal-item" th:href="@{/portal/colaboradores}"
+                   th:classappend="${activo == 'colaboradores'} ? 'pz-portal-active'"
+                   th:attr="aria-current=${activo == 'colaboradores'} ? 'page'">
                     <i class="bi bi-people"></i><span th:text="#{portal.menu.colaboradores}">Colaboradores</span>
                 </a>
             </nav>

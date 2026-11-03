@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone Colaboradores')}"></head>
+<body>
+<header th:replace="~{fragments/portal :: topbar}"></header>
+<div class="pz-portal-layout">
+    <div th:replace="~{fragments/portal :: menu('colaboradores')}"></div>
+    <main class="pz-portal-content">
+        <h1 class="pz-h3 mb-3" th:text="#{portal.colaboradores.titulo}">Colaboradores</h1>
+
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th th:text="#{portal.colaboradores.nombre}">Nombre</th>
+                    <th th:text="#{portal.colaboradores.rol}">Rol</th>
+                    <th th:text="#{portal.colaboradores.area}">Área</th>
+                    <th th:text="#{portal.colaboradores.estado}">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${colaboradores}">
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="pz-avatar flex-shrink-0" th:text="${c.iniciales}">MR</div>
+                            <span th:text="${c.nombre}">Nombre</span>
+                        </div>
+                    </td>
+                    <td th:text="${c.rol != null} ? ${c.rol.nombre} : '—'">Rol</td>
+                    <td th:text="${c.area == 'CAFE'} ? #{portal.colaboradores.area.cafe} : (${c.area == 'SALON'} ? #{portal.colaboradores.area.salon} : ${c.area})">Área</td>
+                    <td>
+                        <span class="badge" th:classappend="${c.estado == 'ACTIVO'} ? 'text-bg-success' : 'text-bg-secondary'"
+                              th:text="${c.estado == 'ACTIVO'} ? #{portal.colaboradores.estado.activo} : (${c.estado == 'INACTIVO'} ? #{portal.colaboradores.estado.inactivo} : ${c.estado})">Estado</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(colaboradores)}">
+                    <td colspan="4" class="text-center pz-text" th:text="#{portal.colaboradores.vacio}">No hay colaboradores registrados.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
