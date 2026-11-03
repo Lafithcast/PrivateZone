@@ -36,4 +36,12 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> getProductosPorCategoria(Long categoriaId) {
         return productoRepository.findByCategoriaIdOrderByNombreAsc(categoriaId);
     }
+
+    @Override
+    @Transactional
+    public void actualizarPrecio(Long id, Integer precio) {
+        Producto p = productoRepository.findById(id).orElseThrow();
+        p.setPrecio(precio);
+        productoRepository.save(p);
+    }
 }
