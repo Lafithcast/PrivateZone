@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone · Salón')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<div th:replace="~{fragments/area-bar :: salon('agendar')}"></div>
+
+<main class="container-xxl px-4 py-5">
+    <div class="pz-card p-4 p-lg-5">
+        <h1 class="pz-h2 mb-3" th:text="#{agenda.titulo}">Agendar cita</h1>
+        <div th:replace="~{fragments/agenda :: pasos(3)}"></div>
+
+        <div class="alert alert-danger" th:if="${errores != null and !#lists.isEmpty(errores)}">
+            <div th:each="e : ${errores}" th:text="#{${e}}">Error</div>
+        </div>
+
+        <!-- resumen de la cita -->
+        <div class="pz-cat mb-4">
+            <h2 class="pz-h3" th:text="#{agenda.paso3.resumen}">Resumen de tu cita</h2>
+            <dl class="row mb-0">
+                <dt class="col-sm-4" th:text="#{agenda.paso1.servicio}">Servicio</dt>
+                <dd class="col-sm-8" th:text="${servicio.nombre}">Servicio</dd>
+                <dt class="col-sm-4" th:text="#{agenda.paso1.especialista}">Especialista</dt>
+                <dd class="col-sm-8" th:text="${especialista != null} ? ${especialista.nombre} : #{agenda.paso1.sinPreferencia}">Sin preferencia</dd>
+                <dt class="col-sm-4" th:text="#{agenda.paso2.fecha}">Fecha</dt>
+                <dd class="col-sm-8" th:text="${#temporals.format(citaForm.fecha, 'dd/MM/yyyy')}">01/01/2026</dd>
+                <dt class="col-sm-4" th:text="#{agenda.paso2.hora}">Hora</dt>
+                <dd class="col-sm-8" th:text="${#temporals.format(citaForm.hora, 'HH:mm')}">08:00</dd>
+                <dt class="col-sm-4" th:text="#{agenda.paso3.duracion}">Duración</dt>
+                <dd class="col-sm-8" th:text="#{agenda.minutos(${servicio.duracionMinutos})}">45 min</dd>
+                <dt class="col-sm-4" th:text="#{agenda.paso3.precio}">Precio</dt>
+                <dd class="col-sm-8">₡<span th:text="${#numbers.formatInteger(servicio.precio, 1, 'POINT')}">0</span></dd>
+            </dl>
+        </div>
+
+        <form th:action="@{/salon/agendar/confirmar}" method="post" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="nombre" th:text="#{agenda.paso3.nombre}">Nombre completo</label>
+                <input class="form-control" type="text" name="nombre" id="nombre" maxlength="80"
+                       th:value="${citaForm.nombre}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="telefono" th:text="#{agenda.paso3.telefono}">Teléfono / WhatsApp</label>
+                <input class="form-control" type="text" name="telefono" id="telefono" maxlength="20"
+                       th:value="${citaForm.telefono}" required>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2">
+                <a class="btn pz-pill" th:href="@{/salon/agendar/fecha}" th:text="#{agenda.atras}">Atrás</a>
+                <button type="submit" class="btn pz-btn-dark" th:text="#{agenda.confirmar}">Confirmar cita</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

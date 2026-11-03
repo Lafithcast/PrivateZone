@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone · Salón')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<div th:replace="~{fragments/area-bar :: salon('agendar')}"></div>
+
+<main class="container-xxl px-4 py-5">
+    <div class="pz-card p-4 p-lg-5">
+        <h1 class="pz-h2 mb-3" th:text="#{agenda.titulo}">Agendar cita</h1>
+        <div th:replace="~{fragments/agenda :: pasos(1)}"></div>
+
+        <div class="alert alert-danger" th:if="${errores != null and !#lists.isEmpty(errores)}">
+            <div th:each="e : ${errores}" th:text="#{${e}}">Error</div>
+        </div>
+
+        <form th:action="@{/salon/agendar}" method="post" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="servicioId" th:text="#{agenda.paso1.servicio}">Servicio</label>
+                <select class="form-select" name="servicioId" id="servicioId" required>
+                    <option value="" disabled th:selected="${citaForm.servicioId == null}" th:text="#{agenda.paso1.elegirServicio}">Selecciona un servicio</option>
+                    <optgroup th:each="g : ${serviciosPorCategoria}" th:label="${g.key}">
+                        <!-- data-especialistas: ids de los especialistas activos del servicio -->
+                        <option th:each="s : ${g.value}" th:value="${s.id}"
+                                th:selected="${s.id == citaForm.servicioId}"
+                                th:attr="data-especialistas=${#strings.listJoin(s.especialistas.?[estado == 'ACTIVO'].![id], ',')}"
+                                th:text="${s.nombre} + ' · ' + #{agenda.minutos(${s.duracionMinutos})} + ' · ₡' + ${#numbers.formatInteger(s.precio, 1, 'POINT')}">Servicio</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="especialistaId" th:text="#{agenda.paso1.especialista}">Especialista</label>
+                <select class="form-select" name="especialistaId" id="especialistaId">
+                    <option value="" th:selected="${citaForm.especialistaId == null}" th:text="#{agenda.paso1.sinPreferencia}">Sin preferencia</option>
+                    <option th:each="e : ${especialistas}" th:value="${e.id}"
+                            th:selected="${e.id == citaForm.especialistaId}"
+                            th:text="${e.nombre}">Especialista</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn pz-btn-dark" th:text="#{agenda.continuar}">Continuar</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+<script>
+    // muestra solo los especialistas del servicio elegido; el servidor valida de todos modos
+    (function () {
+        var servicio = document.getElementById('servicioId');
+        var esp = document.getElementById('especialistaId');
+        function filtrar() {
+            var opt = servicio.options[servicio.selectedIndex];
+            var ids = opt && opt.getAttribute('data-especialistas') ? opt.getAttribute('data-especialistas').split(',') : [];
+            for (var i = 0; i < esp.options.length; i++) {
+                var o = esp.options[i];
+                if (o.value === '') { continue; }
+                var visible = ids.indexOf(o.value) !== -1;
+                o.hidden = !visible;
+                o.disabled = !visible;
+            }
+            if (esp.value !== '' && esp.options[esp.selectedIndex].disabled) { esp.value = ''; }
+        }
+        servicio.addEventListener('change', filtrar);
+        filtrar();
+    })();
+</script>
+</body>
+</html>
