@@ -25,6 +25,8 @@ body {
 .pz-brand-sub { font-size: .55rem; letter-spacing: .35em; color: var(--pz-gold); }
 .pz-pill { background: var(--pz-beige); border-radius: 50rem; font-size: .8rem; font-weight: 600; padding: .45rem 1.1rem; color: var(--pz-dark); }
 .pz-pill:hover { background: var(--pz-gold); color: #fff; }
+.pz-toggler { border-color: var(--pz-line); }
+.pz-toggler:focus { box-shadow: 0 0 0 .2rem rgba(163, 139, 107, .35); }
 
 /* ---------- Tipografía ---------- */
 .pz-eyebrow { font-size: .7rem; letter-spacing: .2em; color: var(--pz-gold-dark); font-weight: 500; }
