@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- ========== BARRA SUPERIOR DEL PORTAL ========== -->
+<header th:fragment="topbar" class="sticky-top">
+    <nav class="navbar pz-navbar">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center gap-3">
+                <!-- abre el menú lateral en pantallas pequeñas -->
+                <button class="navbar-toggler pz-toggler d-lg-none" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#portalMenu" aria-controls="portalMenu" th:aria-label="#{portal.menu.abrir}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand d-flex align-items-center gap-2 m-0" th:href="@{/portal/productos}">
+                    <i class="bi bi-flower1 pz-logo"></i>
+                    <span class="pz-brand" th:text="#{brand.name}">Private zone</span>
+                </a>
+            </div>
+            <a class="btn pz-pill" th:href="@{/}">
+                <i class="bi bi-box-arrow-up-right me-1"></i><span th:text="#{portal.menu.volver}">Volver al sitio</span>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- ========== MENÚ LATERAL DEL PORTAL (parámetro: ítem activo) ========== -->
+<div th:fragment="menu(activo)" class="pz-portal-menu-col">
+    <aside class="offcanvas-lg offcanvas-start pz-portal-menu" tabindex="-1" id="portalMenu" aria-labelledby="portalMenuTitulo">
+        <div class="offcanvas-header d-lg-none">
+            <h5 class="offcanvas-title pz-brand" id="portalMenuTitulo" th:text="#{brand.name}">Private zone</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#portalMenu"
+                    th:aria-label="#{portal.menu.cerrar}"></button>
+        </div>
+        <div class="offcanvas-body">
+            <nav class="nav flex-column w-100 gap-1">
+                <!-- Resumen del día: lo habilita el integrante D -->
+                <a class="pz-portal-item pz-portal-disabled" aria-disabled="true" th:title="#{portal.menu.proximamente}">
+                    <i class="bi bi-speedometer2"></i><span th:text="#{portal.menu.resumen}">Resumen del día</span>
+                </a>
+
+                <div class="pz-portal-group">
+                    <i class="bi bi-cup-hot"></i><span th:text="#{portal.menu.menuServicios}">Menú y servicios</span>
+                </div>
+                <a class="pz-portal-item pz-portal-sub" th:href="@{/portal/productos}"
+                   th:classappend="${activo == 'productos'} ? 'pz-portal-active'"
+                   th:attr="aria-current=${activo == 'productos'} ? 'page'">
+                    <span th:text="#{portal.menu.productos}">Productos</span>
+                </a>
+                <a class="pz-portal-item pz-portal-sub" th:href="@{/portal/servicios}"
+                   th:classappend="${activo == 'servicios'} ? 'pz-portal-active'"
+                   th:attr="aria-current=${activo == 'servicios'} ? 'page'">
+                    <span th:text="#{portal.menu.servicios}">Servicios</span>
+                </a>
+
+                <!-- Promociones: lo habilita el integrante D -->
+                <a class="pz-portal-item pz-portal-disabled" aria-disabled="true" th:title="#{portal.menu.proximamente}">
+                    <i class="bi bi-megaphone"></i><span th:text="#{portal.menu.promociones}">Promociones</span>
+                </a>
+                <!-- Colaboradores: lo habilita el integrante A -->
+                <a class="pz-portal-item pz-portal-disabled" aria-disabled="true" th:title="#{portal.menu.proximamente}">
+                    <i class="bi bi-people"></i><span th:text="#{portal.menu.colaboradores}">Colaboradores</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+</div>
+
+</body>
+</html>

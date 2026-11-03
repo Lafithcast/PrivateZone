@@ -94,3 +94,20 @@ body {
     .pz-arrow-prev { left: .5rem; }
     .pz-arrow-next { right: .5rem; }
 }
+
+/* ---------- Portal del personal ---------- */
+.pz-portal-menu { --bs-offcanvas-width: 17rem; }
+.pz-portal-item { display: flex; align-items: center; gap: .6rem; padding: .55rem .9rem; border-radius: .75rem;
+    color: var(--pz-dark); font-size: .9rem; font-weight: 500; text-decoration: none; }
+.pz-portal-item:hover { background: var(--pz-beige); color: var(--pz-dark); }
+.pz-portal-sub { padding-left: 2.6rem; }
+.pz-portal-group { display: flex; align-items: center; gap: .6rem; padding: .55rem .9rem; margin-top: .25rem;
+    font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--pz-gold-dark); }
+.pz-portal-active, .pz-portal-active:hover { background: var(--pz-gold); color: #fff; }
+.pz-portal-disabled, .pz-portal-disabled:hover { color: var(--pz-muted); opacity: .55; background: transparent; cursor: not-allowed; }
+.pz-portal-content { padding: 1.5rem; min-width: 0; }
+@media (min-width: 992px) {
+    .pz-portal-layout { display: flex; align-items: stretch; min-height: calc(100vh - 66px); }
+    .pz-portal-menu-col { flex: 0 0 17rem; background: #fdfbf7; border-right: 1px solid var(--pz-line); padding: 1rem .75rem; }
+    .pz-portal-content { flex: 1 1 auto; padding: 2rem; }
+}

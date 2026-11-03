@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone Servicios')}"></head>
+<body>
+<header th:replace="~{fragments/portal :: topbar}"></header>
+<div class="pz-portal-layout">
+    <div th:replace="~{fragments/portal :: menu('servicios')}"></div>
+    <main class="pz-portal-content">
+        <h1 class="pz-h3 mb-3" th:text="#{portal.servicios.titulo}">Servicios del salón</h1>
+
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th th:text="#{portal.servicios.servicio}">Servicio</th>
+                    <th th:text="#{portal.servicios.categoria}">Categoría</th>
+                    <th th:text="#{portal.servicios.duracion}">Duración</th>
+                    <th th:text="#{portal.servicios.precio}">Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="s : ${servicios}">
+                    <td th:text="${s.nombre}">Servicio</td>
+                    <td th:text="${s.categoria.nombre}">Categoría</td>
+                    <td th:text="#{portal.servicios.minutos(${s.duracionMinutos})}">45 min</td>
+                    <td>₡<span th:text="${#numbers.formatInteger(s.precio, 1, 'POINT')}">0</span></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(servicios)}">
+                    <td colspan="4" class="text-center pz-text" th:text="#{portal.servicios.vacio}">No hay servicios disponibles.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
