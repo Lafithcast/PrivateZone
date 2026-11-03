@@ -1,0 +1,14 @@
+# Plantilla para application-local.properties (archivo local, ignorado por git).
+#
+# Para activar MySQL: copia este archivo como application-local.properties
+# en esta misma carpeta (src/main/resources), descomenta las lineas de abajo
+# y reemplaza los valores por los de tu equipo.
+#
+# Si application-local.properties no existe, la aplicacion usa una base de
+# datos H2 en memoria (los datos se pierden al detenerla).
+#
+# Nunca subas credenciales reales al repositorio.
+
+#spring.datasource.url=jdbc:mysql://localhost:3306/privatezone?createDatabaseIfNotExist=true&serverTimezone=America/Costa_Rica
+#spring.datasource.username=tu_usuario
+#spring.datasource.password=tu_password
