@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone · Café')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: header}"></header>
+
+    <main class="container-xxl px-4 py-5">
+        <div class="pz-card p-4 p-lg-5">
+
+            <div class="alert alert-success" th:if="${reservaOk}"
+                 th:text="#{cafepag.reserva.ok}">Reserva registrada</div>
+
+            <form th:action="@{/cafe/reservar}" th:object="${reserva}" method="post" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="nombre"
+                           th:text="#{cafepag.reserva.nombre}">Nombre completo</label>
+                    <input class="form-control" type="text" th:field="*{nombre}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="telefono"
+                           th:text="#{cafepag.reserva.telefono}">Teléfono / WhatsApp</label>
+                    <input class="form-control" type="text" th:field="*{telefono}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="fecha"
+                           th:text="#{cafepag.reserva.fecha}">Fecha</label>
+                    <input type="date" class="form-control" th:field="*{fecha}" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="hora"
+                           th:text="#{cafepag.reserva.hora}">Hora</label>
+                    <input type="time" class="form-control" th:field="*{hora}" step="600" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="personas"
+                           th:text="#{cafepag.reserva.personas}">Personas</label>
+                    <select class="form-select" th:field="*{personas}">
+                        <option th:each="n : ${#numbers.sequence(1, 10)}" th:value="${n}"
+                                th:text="${n}">1</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn pz-btn-dark"
+                            th:text="#{cafepag.reserva.confirmar}">Confirmar reserva</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
