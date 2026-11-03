@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- ========== INDICADOR DE PASOS DE AGENDAR CITA (parámetro: paso actual 1 a 3) ========== -->
+<div th:fragment="pasos(actual)" class="mb-4">
+    <p class="pz-eyebrow mb-2" th:text="#{agenda.pasos.paso(${actual})}">Paso 1 de 3</p>
+    <div class="d-flex flex-wrap gap-2">
+        <span class="pz-pill" th:classappend="${actual == 1} ? 'text-bg-dark'" th:text="'1 · ' + #{agenda.pasos.1}">1 · Servicio y especialista</span>
+        <span class="pz-pill" th:classappend="${actual == 2} ? 'text-bg-dark'" th:text="'2 · ' + #{agenda.pasos.2}">2 · Fecha y hora</span>
+        <span class="pz-pill" th:classappend="${actual == 3} ? 'text-bg-dark'" th:text="'3 · ' + #{agenda.pasos.3}">3 · Resumen</span>
+    </div>
+</div>
+
+</body>
+</html>

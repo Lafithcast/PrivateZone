@@ -31,6 +31,12 @@ public class ServicioServiceImpl implements ServicioService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Servicio> getServiciosDisponiblesConEspecialistas() {
+        return servicioRepository.findDisponiblesConEspecialistas();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Servicio> buscarPorId(Long id) {
         return servicioRepository.findWithEspecialistasById(id);
     }

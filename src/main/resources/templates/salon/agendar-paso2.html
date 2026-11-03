@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone · Salón')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<div th:replace="~{fragments/area-bar :: salon('agendar')}"></div>
+
+<main class="container-xxl px-4 py-5">
+    <div class="pz-card p-4 p-lg-5">
+        <h1 class="pz-h2 mb-3" th:text="#{agenda.titulo}">Agendar cita</h1>
+        <div th:replace="~{fragments/agenda :: pasos(2)}"></div>
+
+        <div class="alert alert-danger" th:if="${errores != null and !#lists.isEmpty(errores)}">
+            <div th:each="e : ${errores}" th:text="#{${e}}">Error</div>
+        </div>
+
+        <p class="pz-text mb-1">
+            <strong th:text="${servicio.nombre}">Servicio</strong>
+            · <span th:text="#{agenda.minutos(${servicio.duracionMinutos})}">45 min</span>
+        </p>
+        <p class="pz-text mb-4">
+            <span th:text="#{agenda.paso1.especialista}">Especialista</span>:
+            <span th:text="${especialista != null} ? ${especialista.nombre} : #{agenda.paso1.sinPreferencia}">Sin preferencia</span>
+        </p>
+
+        <form th:action="@{/salon/agendar/fecha}" method="post" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label" for="fecha" th:text="#{agenda.paso2.fecha}">Fecha</label>
+                <input type="date" class="form-control" name="fecha" id="fecha"
+                       th:min="${hoy}" th:value="${citaForm.fecha}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="hora" th:text="#{agenda.paso2.hora}">Hora</label>
+                <select class="form-select" name="hora" id="hora" required>
+                    <option value="" disabled th:selected="${citaForm.hora == null}" th:text="#{agenda.paso2.elegirHora}">Selecciona una hora</option>
+                    <option th:each="h : ${horas}" th:value="${#temporals.format(h, 'HH:mm')}"
+                            th:selected="${h.equals(citaForm.hora)}"
+                            th:text="${#temporals.format(h, 'HH:mm')}">08:00</option>
+                </select>
+            </div>
+            <div class="col-12 d-flex flex-wrap gap-2">
+                <a class="btn pz-pill" th:href="@{/salon/agendar}" th:text="#{agenda.atras}">Atrás</a>
+                <button type="submit" class="btn pz-btn-dark" th:text="#{agenda.continuar}">Continuar</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

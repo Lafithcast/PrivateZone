@@ -25,8 +25,8 @@
            th:attr="aria-current=${activo == 'resumen'} ? 'page'" th:text="#{areabar.salon.resumen}">Resumen</a>
         <a class="pz-areabar-link" th:href="@{/salon#servicios}" th:classappend="${activo == 'servicios'} ? 'pz-areabar-active'"
            th:attr="aria-current=${activo == 'servicios'} ? 'page'" th:text="#{areabar.salon.servicios}">Servicios</a>
-        <!-- Agendar cita: se habilita en la rama del flujo de agendamiento -->
-        <a class="pz-areabar-link pz-areabar-disabled" aria-disabled="true" th:text="#{areabar.salon.agendar}">Agendar cita</a>
+        <a class="pz-areabar-link" th:href="@{/salon/agendar}" th:classappend="${activo == 'agendar'} ? 'pz-areabar-active'"
+           th:attr="aria-current=${activo == 'agendar'} ? 'page'" th:text="#{areabar.salon.agendar}">Agendar cita</a>
     </nav>
 </div>
 
