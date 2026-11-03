@@ -21,4 +21,10 @@ public class ColaboradorServiceImpl implements ColaboradorService {
     public List<Colaborador> getColaboradoresPorArea(String area) {
         return colaboradorRepository.findByAreaOrderByIdAsc(area);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Colaborador> getColaboradores() {
+        return colaboradorRepository.findAllByOrderByAreaAscNombreAsc();
+    }
 }
