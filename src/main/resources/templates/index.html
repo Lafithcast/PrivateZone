@@ -117,7 +117,7 @@
                     <p class="pz-eyebrow mb-2"><i class="bi bi-scissors me-1"></i><span th:text="#{salon.eyebrow}">SALÓN DE BELLEZA</span></p>
                     <h2 class="pz-h2" th:text="#{salon.title}">Salón de Belleza y Bienestar</h2>
                     <p class="pz-text" th:text="#{salon.desc}"></p>
-                    <a href="#" class="pz-link-row d-flex align-items-center gap-3 text-decoration-none">
+                    <a th:href="@{/salon}" class="pz-link-row d-flex align-items-center gap-3 text-decoration-none">
                         <span class="pz-link-icon"><i class="bi bi-clock"></i></span>
                         <span class="flex-grow-1">
                             <strong class="d-block" th:text="#{salon.agenda.titulo}">Agenda en línea</strong>
@@ -141,7 +141,7 @@
 
             <hr class="pz-hr my-4">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-4">
-                <div><a href="#" class="btn pz-btn-dark"><span th:text="#{salon.mas}">Ver Servicios y Agendar Cita</span> <i class="bi bi-arrow-right ms-1"></i></a></div>
+                <div><a th:href="@{/salon}" class="btn pz-btn-dark"><span th:text="#{salon.mas}">Ver Servicios y Agendar Cita</span> <i class="bi bi-arrow-right ms-1"></i></a></div>
                 <div>
                     <p class="pz-eyebrow text-md-end mb-2" th:text="#{salon.equipo}">NUESTRAS ESPECIALISTAS</p>
                     <div class="d-flex gap-4 justify-content-md-end">

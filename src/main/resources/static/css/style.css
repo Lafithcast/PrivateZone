@@ -122,3 +122,4 @@ body {
     color: var(--pz-dark); text-decoration: none; }
 .pz-areabar-link:hover { background: var(--pz-line); color: var(--pz-dark); }
 .pz-areabar-active, .pz-areabar-active:hover { background: var(--pz-gold); color: #fff; }
+.pz-areabar-disabled, .pz-areabar-disabled:hover { background: transparent; color: var(--pz-muted); opacity: .55; cursor: not-allowed; }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone · Salón')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<div th:replace="~{fragments/area-bar :: salon('resumen')}"></div>
+
+<main class="container-xxl px-4 py-5">
+    <!-- ===================== RESUMEN ===================== -->
+    <div class="pz-card p-4 p-lg-5 mb-4">
+        <p class="pz-eyebrow mb-2" th:text="#{salon.eyebrow}">SALÓN DE BELLEZA</p>
+        <h1 class="pz-h2" th:text="#{salon.title}">Salón de Belleza y Bienestar</h1>
+        <p class="pz-text" th:text="#{salon.desc}">Descripción</p>
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <a class="btn pz-btn-dark" href="#servicios" th:text="#{salonpag.verServicios}">Ver servicios</a>
+            <!-- Agendar cita: se habilita en la rama del flujo de agendamiento (/salon/agendar) -->
+            <a class="btn pz-pill disabled" aria-disabled="true" th:text="#{salonpag.agendar}">Agendar cita</a>
+        </div>
+
+        <div class="row g-3">
+            <div th:each="c : ${categorias}" class="col-md-6 col-lg-3">
+                <div class="pz-cat h-100">
+                    <span class="pz-cat-icon"><i class="bi" th:classappend="${c.icono}"></i></span>
+                    <h3 class="pz-h3" th:text="${c.nombre}">Categoría</h3>
+                    <p class="pz-cat-desc" th:text="${c.descripcion}">Descripción</p>
+                    <small class="pz-cat-precio"><span th:text="#{comun.desde}">Desde</span> ₡<span th:text="${#numbers.formatInteger(c.precioDesde,1,'POINT')}">0</span></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== SERVICIOS ===================== -->
+    <section id="servicios">
+        <h2 class="pz-h2 mb-4" th:text="#{salonpag.servicios.titulo}">Servicios</h2>
+
+        <p class="pz-text" th:if="${#maps.isEmpty(serviciosPorCategoria)}" th:text="#{salonpag.servicios.vacio}">No hay servicios disponibles.</p>
+
+        <div th:each="c : ${categorias}" th:if="${serviciosPorCategoria.containsKey(c.id)}" class="mb-4">
+            <h3 class="pz-h3 mb-3" th:text="${c.nombre}">Categoría</h3>
+            <div class="row g-3">
+                <div class="col-md-4" th:each="s : ${serviciosPorCategoria.get(c.id)}">
+                    <div class="pz-cat h-100">
+                        <h4 class="pz-h3" th:text="${s.nombre}">Servicio</h4>
+                        <p class="pz-cat-desc" th:text="${s.descripcion}">Descripción</p>
+                        <p class="mb-1 small" th:text="#{salonpag.minutos(${s.duracionMinutos})}">45 min</p>
+                        <p class="fw-semibold mb-0">₡<span th:text="${#numbers.formatInteger(s.precio, 1, 'POINT')}">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
