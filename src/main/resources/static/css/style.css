@@ -111,3 +111,14 @@ body {
     .pz-portal-menu-col { flex: 0 0 17rem; background: #fdfbf7; border-right: 1px solid var(--pz-line); padding: 1rem .75rem; }
     .pz-portal-content { flex: 1 1 auto; padding: 2rem; }
 }
+
+/* ---------- Barra de área (Café / Salón) ---------- */
+.pz-areabar { background: var(--pz-beige); border-bottom: 1px solid var(--pz-line); }
+.pz-areabar-nav { display: flex; align-items: center; gap: .5rem; padding-top: .5rem; padding-bottom: .5rem;
+    overflow-x: auto; white-space: nowrap; }
+.pz-areabar-nombre { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--pz-dark);
+    margin-right: .75rem; }
+.pz-areabar-link { padding: .35rem 1rem; border-radius: 50rem; font-size: .8rem; font-weight: 600;
+    color: var(--pz-dark); text-decoration: none; }
+.pz-areabar-link:hover { background: var(--pz-line); color: var(--pz-dark); }
+.pz-areabar-active, .pz-areabar-active:hover { background: var(--pz-gold); color: #fff; }
