@@ -1,4 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package PrivateZone.PrivateZone.security;
+
+/**
+ *
+ * @author home
+ */
 
 import PrivateZone.PrivateZone.domain.Colaborador;
 import PrivateZone.PrivateZone.repository.ColaboradorRepository;

@@ -13,4 +13,8 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
     // citas de un especialista en una fecha, con su servicio cargado para conocer la duración
     @EntityGraph(attributePaths = "servicio")
     List<Cita> findByEspecialistaIdAndFecha(Long especialistaId, LocalDate fecha);
+
+    // todas las citas de una fecha en orden de hora, con servicio y especialista cargados (Resumen del día)
+    @EntityGraph(attributePaths = {"servicio", "especialista"})
+    List<Cita> findByFechaOrderByHoraAsc(LocalDate fecha);
 }

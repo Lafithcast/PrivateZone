@@ -29,13 +29,14 @@
     <aside class="offcanvas-lg offcanvas-start pz-portal-menu" tabindex="-1" id="portalMenu" aria-labelledby="portalMenuTitulo">
         <div class="offcanvas-header d-lg-none">
             <h5 class="offcanvas-title pz-brand" id="portalMenuTitulo" th:text="#{brand.name}">Private zone</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#portalMenu"
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#portalMenu"
                     th:aria-label="#{portal.menu.cerrar}"></button>
         </div>
         <div class="offcanvas-body">
             <nav class="nav flex-column w-100 gap-1">
-                <!-- Resumen del día: lo habilita el integrante D -->
-                <a class="pz-portal-item pz-portal-disabled" aria-disabled="true" th:title="#{portal.menu.proximamente}">
+                <a class="pz-portal-item" th:href="@{/portal/resumen}"
+                   th:classappend="${activo == 'resumen'} ? 'pz-portal-active'"
+                   th:attr="aria-current=${activo == 'resumen'} ? 'page'">
                     <i class="bi bi-speedometer2"></i><span th:text="#{portal.menu.resumen}">Resumen del día</span>
                 </a>
 

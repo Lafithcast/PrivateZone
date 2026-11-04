@@ -1,4 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package PrivateZone.PrivateZone.security;
+
+/**
+ *
+ * @author home
+ */
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +52,7 @@ public class SecurityConfig {
      */
     private AuthenticationSuccessHandler alIniciarSesion() {
         SavedRequestAwareAuthenticationSuccessHandler normal = new SavedRequestAwareAuthenticationSuccessHandler();
-        normal.setDefaultTargetUrl("/portal/productos");
+        normal.setDefaultTargetUrl("/portal/resumen");
         return (request, response, authentication) -> {
             String elegido = request.getParameter("rol");
             boolean coincide = authentication.getAuthorities().contains(

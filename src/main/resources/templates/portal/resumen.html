@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone Resumen del día')}"></head>
+<body>
+<header th:replace="~{fragments/portal :: topbar}"></header>
+<div class="pz-portal-layout">
+    <div th:replace="~{fragments/portal :: menu('resumen')}"></div>
+    <main class="pz-portal-content">
+        <p class="pz-eyebrow text-uppercase mb-1" th:text="${resumen.fechaTexto}">Sábado 3 de octubre, 2026</p>
+        <h1 class="pz-h2 mb-4">Resumen del día</h1>
+
+        <!-- ========== TARJETAS ========== -->
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="pz-card pz-res-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="pz-res-label">Citas agendadas hoy</span>
+                        <span class="pz-res-icono"><i class="bi bi-calendar-check"></i></span>
+                    </div>
+                    <div class="pz-res-valor" th:text="${resumen.totalCitas}">0</div>
+                    <div class="pz-res-detalle"
+                         th:text="|${resumen.pendientes} ${resumen.pendientes == 1 ? 'pendiente' : 'pendientes'} · ${resumen.completadas} ${resumen.completadas == 1 ? 'completada' : 'completadas'} · ${resumen.canceladas} ${resumen.canceladas == 1 ? 'cancelada' : 'canceladas'}|">0 pendientes</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="pz-card pz-res-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="pz-res-label">Ventas del día</span>
+                        <span class="pz-res-icono"><i class="bi bi-cash-stack"></i></span>
+                    </div>
+                    <div class="pz-res-valor">₡<span th:text="${#numbers.formatInteger(resumen.ventasSalon, 1, 'POINT')}">0</span></div>
+                    <div class="pz-res-detalle">
+                        Salón ₡<span th:text="${#numbers.formatInteger(resumen.ventasSalon, 1, 'POINT')}">0</span> · Café sin ventas registradas
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="pz-card pz-res-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="pz-res-label">Promociones activas en la web</span>
+                        <span class="pz-res-icono"><i class="bi bi-megaphone"></i></span>
+                    </div>
+                    <div class="pz-res-valor" th:text="${resumen.promocionesActivas}">0</div>
+                    <div class="pz-res-detalle"
+                         th:text="|${resumen.promocionesProgramadas} ${resumen.promocionesProgramadas == 1 ? 'programada' : 'programadas'} · ${resumen.promocionesVencenPronto} ${resumen.promocionesVencenPronto == 1 ? 'vence' : 'vencen'} esta semana|">0 programadas</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <div class="pz-card pz-res-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="pz-res-label">Clientes atendidos</span>
+                        <span class="pz-res-icono"><i class="bi bi-people"></i></span>
+                    </div>
+                    <div class="pz-res-valor" th:text="${resumen.clientesAtendidos}">0</div>
+                    <div class="pz-res-detalle" th:if="${resumen.variacionClientes != null}"
+                         th:classappend="${resumen.variacionClientes >= 0} ? 'pz-res-sube' : 'pz-res-baja'"
+                         th:text="|${resumen.variacionClientes > 0 ? '+' : ''}${resumen.variacionClientes}% vs. ${resumen.diaSemana} anterior|">+0%</div>
+                    <div class="pz-res-detalle" th:unless="${resumen.variacionClientes != null}"
+                         th:text="|Sin datos del ${resumen.diaSemana} anterior|">Sin datos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== CITAS DEL DÍA ========== -->
+        <div class="pz-card pz-res-tabla-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="pz-h3 m-0">Citas del día</h2>
+                <span class="pz-res-detalle"
+                      th:text="|${resumen.totalCitas} ${resumen.totalCitas == 1 ? 'cita' : 'citas'}|">0 citas</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 pz-res-tabla">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Cliente</th>
+                            <th>Servicio</th>
+                            <th>Área</th>
+                            <th>Especialista</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${resumen.citas}">
+                            <td class="fw-semibold" th:text="${c.horaTexto}">09:00</td>
+                            <td th:text="${c.cliente}">Cliente</td>
+                            <td th:text="${c.servicio}">Servicio</td>
+                            <td th:text="${c.area}">Área</td>
+                            <td th:text="${c.especialista}">Especialista</td>
+                            <td><span class="pz-res-estado" th:classappend="${c.estadoClase}" th:text="${c.estado}">Pendiente</span></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(resumen.citas)}">
+                            <td colspan="6" class="text-center pz-text">No hay citas para hoy.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
