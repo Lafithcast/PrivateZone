@@ -39,7 +39,10 @@ CREATE TABLE colaborador (
     rol_id BIGINT,
     estado VARCHAR(10) NOT NULL DEFAULT 'ACTIVO',
     iniciales VARCHAR(4) NOT NULL,
+    correo VARCHAR(100),
+    password VARCHAR(100),
     PRIMARY KEY (id),
+    UNIQUE KEY uk_colaborador_correo (correo),
     CONSTRAINT fk_colaborador_rol FOREIGN KEY (rol_id) REFERENCES rol (id)
 ) ENGINE=InnoDB;
 
@@ -136,6 +139,7 @@ INSERT INTO categoria (area, nombre, descripcion, precio_desde, icono) VALUES
 ('SALON', 'Tratamientos Faciales', 'Limpieza profunda, hidratación y cuidado de la piel.', 18000, 'bi-flower2');
 
 INSERT INTO rol (nombre) VALUES
+('Administrador'),
 ('Barista principal'),
 ('Barista'),
 ('Estilista'),
@@ -147,6 +151,13 @@ INSERT INTO colaborador (area, nombre, rol_id, estado, iniciales) VALUES
 ('SALON', 'Daysi Araya', (SELECT id FROM rol WHERE nombre = 'Estilista'), 'ACTIVO', 'DA'),
 ('SALON', 'Beverly Chavarria', (SELECT id FROM rol WHERE nombre = 'Especialista en uñas'), 'ACTIVO', 'BC'),
 ('SALON', 'Roxana Alfaro', (SELECT id FROM rol WHERE nombre = 'Estilista'), 'ACTIVO', 'RA');
+
+-- Usuario administrador de prueba para el Portal de colaboradores (solo desarrollo local).
+--   Correo:     admin@privatezone.cr
+--   Contraseña: PrivateZone#2026
+-- La contraseña se guarda como hash BCrypt. El área ADMIN lo deja fuera de las listas públicas de baristas y especialistas.
+INSERT INTO colaborador (area, nombre, rol_id, estado, iniciales, correo, password) VALUES
+('ADMIN', 'Administrador', (SELECT id FROM rol WHERE nombre = 'Administrador'), 'ACTIVO', 'AD', 'admin@privatezone.cr', '$2a$10$X1YPnBCknh5DLVRFAq7KheyPKh0kpF9jGw5wGFSeZPLeNc.nscKfW');
 
 INSERT INTO promocion (etiqueta, titulo, descripcion, precio, precio_anterior, icono, activa, orden, fecha_inicio, fecha_fin) VALUES
 ('Café + Salón · Combo', 'Desayuno + Manicura Express',

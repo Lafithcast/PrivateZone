@@ -27,6 +27,13 @@ public class Colaborador {
     @Column(nullable = false, length = 4)
     private String iniciales;
 
+    // credenciales del Portal de colaboradores; null = el colaborador no tiene acceso
+    @Column(unique = true, length = 100)
+    private String correo;            // correo corporativo (es el usuario)
+
+    @Column(length = 100)
+    private String password;          // hash BCrypt, nunca texto plano
+
     public Colaborador() { }
 
     public Colaborador(String area, String nombre, Rol rol, String iniciales) {
@@ -48,4 +55,8 @@ public class Colaborador {
     public void setEstado(String estado) { this.estado = estado; }
     public String getIniciales() { return iniciales; }
     public void setIniciales(String iniciales) { this.iniciales = iniciales; }
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }
