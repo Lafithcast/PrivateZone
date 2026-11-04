@@ -30,7 +30,11 @@
                                 </p>
                                 <div><a href="#salon" class="btn pz-btn-gold"><span th:text="#{promo.reservar}">Reservar ahora</span> <i class="bi bi-arrow-right ms-1"></i></a></div>
                             </div>
-                            <div class="col-md-6 pz-promo-visual d-flex flex-column align-items-center justify-content-center text-white">
+                            <div class="col-md-6 pz-promo-visual position-relative overflow-hidden d-flex flex-column align-items-center justify-content-center text-white">
+                                <!-- Fotos de Pexels por posición del slide; si no cargan, se ve el ícono de siempre -->
+                                <img th:if="${st.index == 0}" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" src="https://images.pexels.com/photos/36530580/pexels-photo-36530580.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" th:alt="${p.titulo}" onerror="this.remove()">
+                                <img th:if="${st.index == 1}" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" src="https://images.pexels.com/photos/34046778/pexels-photo-34046778.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" th:alt="${p.titulo}" loading="lazy" onerror="this.remove()">
+                                <img th:if="${st.index == 2}" class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" src="https://images.pexels.com/photos/37229301/pexels-photo-37229301.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=900" th:alt="${p.titulo}" loading="lazy" onerror="this.remove()">
                                 <i class="bi fs-1 mb-2" th:classappend="${p.icono}"></i>
                                 <small class="pz-eyebrow text-white" th:text="${#strings.toUpperCase(p.etiqueta)}">ETIQUETA</small>
                             </div>
@@ -70,7 +74,8 @@
                     </a>
                 </div>
                 <div class="col-lg-4">
-                    <div class="pz-foto d-flex flex-column align-items-center justify-content-center">
+                    <div class="pz-foto position-relative overflow-hidden d-flex flex-column align-items-center justify-content-center">
+                        <img class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" src="https://images.pexels.com/photos/34255748/pexels-photo-34255748.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" th:alt="#{cafe.foto}" loading="lazy" onerror="this.remove()">
                         <i class="bi bi-cup-hot fs-2 mb-1"></i><small th:text="#{cafe.foto}">Foto</small>
                     </div>
                 </div>
@@ -109,7 +114,8 @@
         <div class="pz-card p-4 p-lg-5">
             <div class="row g-4 align-items-center mb-4">
                 <div class="col-lg-4 order-2 order-lg-1">
-                    <div class="pz-foto d-flex flex-column align-items-center justify-content-center">
+                    <div class="pz-foto position-relative overflow-hidden d-flex flex-column align-items-center justify-content-center">
+                        <img class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" src="https://images.pexels.com/photos/7195805/pexels-photo-7195805.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" th:alt="#{salon.foto}" loading="lazy" onerror="this.remove()">
                         <i class="bi bi-scissors fs-2 mb-1"></i><small th:text="#{salon.foto}">Foto</small>
                     </div>
                 </div>
@@ -117,7 +123,7 @@
                     <p class="pz-eyebrow mb-2"><i class="bi bi-scissors me-1"></i><span th:text="#{salon.eyebrow}">SALÓN DE BELLEZA</span></p>
                     <h2 class="pz-h2" th:text="#{salon.title}">Salón de Belleza y Bienestar</h2>
                     <p class="pz-text" th:text="#{salon.desc}"></p>
-                    <a th:href="@{/salon}" class="pz-link-row d-flex align-items-center gap-3 text-decoration-none">
+                    <a th:href="@{/salon/agendar}" class="pz-link-row d-flex align-items-center gap-3 text-decoration-none">
                         <span class="pz-link-icon"><i class="bi bi-clock"></i></span>
                         <span class="flex-grow-1">
                             <strong class="d-block" th:text="#{salon.agenda.titulo}">Agenda en línea</strong>
