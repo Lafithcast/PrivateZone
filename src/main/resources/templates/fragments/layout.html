@@ -90,7 +90,7 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 small pz-footer-text">
             <span th:text="#{footer.copy}"></span>
             <span class="pz-gold" th:text="#{footer.lema}"></span>
-            <a href="#" class="btn btn-sm pz-pill-outline"><i class="bi bi-lock me-1"></i><span th:text="#{footer.colaboradores}"></span></a>
+            <a th:href="@{/login}" class="btn btn-sm pz-pill-outline"><i class="bi bi-lock me-1"></i><span th:text="#{footer.colaboradores}"></span></a>
         </div>
     </div>
 </footer>

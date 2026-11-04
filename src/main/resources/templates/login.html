@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Private Zone · Acceso colaboradores')}"></head>
+<body>
+
+<style>
+    /* Pantalla dividida: panel oscuro a la izquierda, formulario a la derecha */
+    .pz-login { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+
+    .pz-login-side { background: linear-gradient(155deg, #2f2d2b 0%, #4a4034 55%, #55493a 100%); color: #fff;
+                     padding: clamp(1.75rem, 4.8vw, 6rem); display: flex; flex-direction: column; }
+    .pz-login-brand { align-self: flex-start; display: flex; align-items: center; gap: .75rem; text-decoration: none;
+                      background: rgba(0, 0, 0, .2); border-radius: 1rem; padding: .9rem 1.6rem; }
+    .pz-login-hero { margin-block: auto; padding-block: 3rem; }
+    .pz-login-hero h1 { font-family: 'Cormorant Garamond', serif; font-weight: 500; line-height: 1.08;
+                        font-size: clamp(2.5rem, 3.2vw, 4rem); margin-bottom: 1.5rem; }
+    .pz-login-hero p:last-child { color: #d8d0c4; font-size: 1.1rem; line-height: 1.6; max-width: 34rem; margin: 0; }
+    .pz-login-copy { color: #b9afa0; font-size: .78rem; margin: 0; }
+
+    .pz-login-main { display: flex; flex-direction: column; align-items: center; justify-content: center;
+                     gap: 1.25rem; padding: 2rem clamp(1rem, 4vw, 2rem); }
+    .pz-login-card { width: 100%; max-width: 34rem; background: #fff; border: 1px solid var(--pz-line);
+                     border-radius: 1.75rem; box-shadow: 0 10px 30px rgba(80, 60, 30, .08);
+                     padding: clamp(1.5rem, 4vw, 3.1rem); }
+    .pz-login-lock { width: 3.4rem; height: 3.4rem; border-radius: 50%; background: var(--pz-beige); color: var(--pz-muted);
+                     display: grid; place-items: center; font-size: 1.25rem; margin-bottom: .75rem; }
+    .pz-login-title { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 2.4rem; margin-bottom: .5rem; }
+    .pz-login-desc { color: var(--pz-muted); font-size: .9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+
+    .pz-login .form-label { font-size: .88rem; font-weight: 600; margin-bottom: .45rem; }
+    .pz-login-field { position: relative; }
+    .pz-login-input { height: 3.4rem; border-radius: .9rem; border: 1px solid var(--pz-line); background-color: #fff;
+                      color: var(--pz-dark); font-size: .92rem; padding-inline: 1.1rem 3rem; }
+    .pz-login-input::placeholder { color: #8c8379; }
+    .pz-login-input:focus { border-color: var(--pz-gold); box-shadow: 0 0 0 .2rem rgba(163, 139, 107, .25); }
+    .pz-login-icon { position: absolute; right: 1.1rem; top: 50%; transform: translateY(-50%);
+                     color: var(--pz-muted); font-size: 1rem; line-height: 1; }
+    button.pz-login-icon { background: none; border: 0; padding: .35rem; cursor: pointer; }
+    button.pz-login-icon:focus-visible { outline: 2px solid var(--pz-gold); border-radius: .4rem; }
+
+    .pz-login .form-check-input:checked { background-color: var(--pz-dark); border-color: var(--pz-dark); }
+    .pz-login .form-check-input:focus { border-color: var(--pz-gold); box-shadow: 0 0 0 .2rem rgba(163, 139, 107, .25); }
+    .pz-login-link { color: var(--pz-gold-dark); font-size: .88rem; font-weight: 500; text-decoration: none; }
+    .pz-login-link:hover { color: var(--pz-dark); }
+    .pz-login-back { color: var(--pz-muted); font-size: .88rem; font-weight: 500; text-decoration: none; }
+    .pz-login-back:hover { color: var(--pz-dark); }
+    .pz-login-note { color: var(--pz-muted); font-size: .78rem; text-align: center; margin: 0; }
+
+    @media (max-width: 991.98px) {
+        .pz-login { grid-template-columns: minmax(0, 1fr); }
+        .pz-login-side { padding: 1.25rem clamp(1rem, 4vw, 2rem); }
+        .pz-login-hero, .pz-login-copy { display: none; }
+        .pz-login-main { justify-content: flex-start; padding-block: 2rem 2.5rem; }
+    }
+</style>
+
+<div class="pz-login">
+
+    <!-- ===================== PANEL IZQUIERDO ===================== -->
+    <aside class="pz-login-side">
+        <a class="pz-login-brand" th:href="@{/}">
+            <i class="bi bi-flower1 pz-logo text-white"></i>
+            <span class="d-flex flex-column lh-1">
+                <span class="pz-brand text-white" th:text="#{brand.name}">Private zone</span>
+                <span class="pz-brand-sub" th:text="#{brand.sub}">WELLNESS</span>
+            </span>
+        </a>
+
+        <div class="pz-login-hero">
+            <p class="pz-eyebrow pz-gold mb-3">PORTAL DE COLABORADORES</p>
+            <h1>Todo el equipo, un solo lugar.</h1>
+            <p>Gestioná citas, menú, promociones y personal del Café y el Salón desde un mismo panel.</p>
+        </div>
+
+        <p class="pz-login-copy">© 2026 Private Zone Wellness · Heredia, Costa Rica</p>
+    </aside>
+
+    <!-- ===================== FORMULARIO ===================== -->
+    <main class="pz-login-main">
+        <div class="pz-login-card">
+            <span class="pz-login-lock"><i class="bi bi-lock"></i></span>
+            <h2 class="pz-login-title">Iniciar sesión</h2>
+            <p class="pz-login-desc">Ingresá con tu correo corporativo. Tu acceso depende del rol asignado.</p>
+
+            <form id="loginForm" class="d-flex flex-column gap-3">
+                <div>
+                    <label class="form-label" for="correo">Correo corporativo</label>
+                    <div class="pz-login-field">
+                        <input class="form-control pz-login-input" type="email" id="correo" name="correo"
+                               placeholder="laura.perez@privatezone.cr" autocomplete="username" required>
+                        <i class="bi bi-person pz-login-icon" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="password">Contraseña</label>
+                    <div class="pz-login-field">
+                        <input class="form-control pz-login-input" type="password" id="password" name="password"
+                               autocomplete="current-password" required>
+                        <button class="pz-login-icon" type="button" id="togglePassword" aria-label="Mostrar contraseña">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="rol">Rol</label>
+                    <select class="form-select pz-login-input" id="rol" name="rol">
+                        <option selected>Administrador</option>
+                        <option>Barista principal</option>
+                        <option>Barista</option>
+                        <option>Estilista</option>
+                        <option>Especialista en uñas</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                    <div class="form-check mb-0">
+                        <input class="form-check-input" type="checkbox" id="recordarme" name="recordarme" checked>
+                        <label class="form-check-label small" for="recordarme">Recordarme</label>
+                    </div>
+                    <a class="pz-login-link" href="#">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="btn pz-btn-dark w-100 py-3">
+                    Iniciar sesión <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+
+                <a class="pz-login-back" th:href="@{/}">
+                    <i class="bi bi-arrow-left me-2"></i><span th:text="#{portal.menu.volver}">Volver al sitio</span>
+                </a>
+            </form>
+        </div>
+
+        <p class="pz-login-note"><i class="bi bi-lock me-1"></i>Acceso exclusivo para personal autorizado. Cada ingreso queda registrado.</p>
+    </main>
+</div>
+
+<script>
+    (function () {
+        var form = document.getElementById('loginForm');
+        var pass = document.getElementById('password');
+        var toggle = document.getElementById('togglePassword');
+
+        // muestra u oculta la contraseña
+        toggle.addEventListener('click', function () {
+            var mostrar = pass.type === 'password';
+            pass.type = mostrar ? 'text' : 'password';
+            toggle.querySelector('i').className = mostrar ? 'bi bi-eye-slash' : 'bi bi-eye';
+            toggle.setAttribute('aria-label', mostrar ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        });
+
+        // el proyecto todavía no tiene autenticación: el formulario no envía datos a ningún lado
+        form.addEventListener('submit', function (e) { e.preventDefault(); });
+    })();
+</script>
+</body>
+</html>
